@@ -128,13 +128,14 @@ OBJDIR = ./obj
 DISTDIR = ./dist
 LIB3DDIR = ./lib3d
 # QTDIR should come from the environment
-ifndef QTDIR
-$(error The QTDIR environment variable is not defined. Define it as the path \
+#ifndef QTDIR
+#$(error The QTDIR environment variable is not defined. Define it as the path \
 	to the QT installation directory)
-endif
+#endif
+QTDIR=/usr
 
 # Auxiliary executables
-MOC = $(QTDIR)/bin/moc
+MOC = $(QTDIR)/bin/moc-qt3
 
 # Autodetect PGCC (Portland Group compiler)
 CC_IS_PGCC := $(findstring pgcc,$(shell $(CC) -V 2>&1))
@@ -340,16 +341,16 @@ MESH_INCLUDES := $(wildcard *.h)
 
 # Compiler and linker flags
 INCFLAGS = -I$(LIB3DDIR)/include -I.
-QTINCFLAGS = -I$(QTDIR)/include
+QTINCFLAGS = -I$(QTDIR)/include/qt3
 GLINCFLAGS = -I/usr/X11R6/include
 
 # Libraries and search path for final linking
 ifeq ($(PROFILE)-$(OS),full-Linux)
-LDLIBS = -lqt -lGL -lGLU -lXmu -lXext -lSM -lICE -lXft -lpng -ljpeg -lmng \
+LDLIBS = -lqt-mt -lGL -lGLU -lXmu -lXext -lSM -lICE -lXft -lpng -ljpeg -lmng \
 	-lXi -ldl -lXt -lz -lfreetype -lXrender -lX11
 XTRA_LDLIBS += -lm_p -lc_p
 else
-LDLIBS = -lqt -lGL -lGLU -lpthread -lXmu -lXext -lX11 -lm -lz
+LDLIBS = -lqt-mt -lGL -lGLU -lpthread -lXmu -lXext -lX11 -lm -lz
 endif
 LOADLIBES = -L$(QTDIR)/lib -L/usr/X11R6/lib
 LDFLAGS =
