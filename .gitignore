@@ -1,3 +1,10 @@
+*~
+build/
 
+# from original sources
+Makefile
+bin/
+obj/
+lib/
 # /
 /moc_*.cpp
